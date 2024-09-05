@@ -1,13 +1,13 @@
 import {React, useEffect, useState} from 'react';
-import { useParams } from 'react-router-dom';
 import './AccountPage.css';
 import axios from 'axios';
 
-const EditableField = ({label, value}) => {
+const EditableField = ({label, value, originalUsername, onSave}) => {
 
   const [isEditing, setIsEditing] = useState(false);
   const [fieldValue, setFieldValue] = useState(value);
-  const originalValue = value;
+  const [error, setError] = useState(false);
+  const [errorMessage, setErrorMessage] = useState('');
 
   const handleEditCancelButton = () => {
     if (isEditing) {
@@ -17,8 +17,15 @@ const EditableField = ({label, value}) => {
   }
 
   const handleSaveButton = async () => {
-    await onSave(fieldValue);
-    setIsEditing(false);
+    const result = await onSave(fieldValue);
+    if (result && result.error) {
+      setError(true);
+      setErrorMessage(result.message);
+    } else {
+      setIsEditing(false);
+      setError(false);
+      setErrorMessage('');
+    }
   };
 
   return (
@@ -28,7 +35,11 @@ const EditableField = ({label, value}) => {
         type='text'
         value={fieldValue}
         onChange={(e) => {setFieldValue(e.target.value)}}
+        readOnly={!isEditing}
       />
+      {error && (
+        <p style={{color:'red'}}>{errorMessage}</p>
+      )}
       <button onClick={handleEditCancelButton}>{! isEditing ? 'Edit' : 'Cancel'}</button>
       <button onClick={handleSaveButton}>Save</button>
     </div>
@@ -51,10 +62,10 @@ const AccountPage = () => {
     fetchUserData();
   }, []);
 
-  const handleSave = async (field, newValue) => {
+  const handleSave = async (field, newValue, originalUsername) => {
     try {
       const response = await axios.put(
-        `http://localhost:3333/account`,
+        `http://localhost:3333/user/${originalUsername}`,
         { [field]: newValue },
         { withCredentials: true }
       );
@@ -63,6 +74,24 @@ const AccountPage = () => {
       console.error('Error updating user data:', error);
     }
   };
+
+  const handleSaveUser = async (field, newUsername, originalUsername) => {
+    try {
+      const response = await axios.get(
+        `http://localhost:3333/user/${newUsername}`
+      );
+      if (response.status === 200) {
+        console.log(response);
+        return { error: true, message: `Username '${response.data.username}' already exists` };
+      } else if (response.status === 204) {
+        await handleSave(field, newUsername, originalUsername);
+        return { error: false, message: '' };
+      }
+    } catch (error) {
+      console.error('Could not check database for existing users');
+      return { error: true, message: 'Could not check database for existing users' };
+    }
+  }
 
   return (
     <div className="AccountPage">
@@ -74,21 +103,25 @@ const AccountPage = () => {
           <EditableField
             label="Username"
             value={user.username}
-            onSave={(newValue) => handleSave('username', newValue)}
+            originalUsername={user.username}
+            onSave={(newValue) => handleSaveUser('username', newValue, user.username)}
           />
           <EditableField
             label="Name"
             value={user.name}
+            originalUsername={user.username}
             onSave={(newValue) => handleSave('name', newValue)}
           />
           <EditableField
             label="Email"
             value={user.email}
+            originalUsername={user.username}
             onSave={(newValue) => handleSave('email', newValue)}
           />
           <EditableField
             label="Bio"
             value={user.bio}
+            originalUsername={user.username}
             onSave={(newValue) => handleSave('bio', newValue)}
           />
         </>

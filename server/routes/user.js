@@ -11,8 +11,14 @@ router.get('/:username',  async (req, res) => {
         return res.status(400).send({error: 'Username required'});
     }
     try {
-        const user = await User.find({'username':username})
-        res.status(200).send(user);
+        const user = await User.findOne({'username':username})
+        if (user) {
+            res.status(200).send(user);
+        }
+        else {
+            res.status(204).send("No user found");
+        }
+
     } catch (error) {
         res.status(404).send(error);    
     }
@@ -28,11 +34,11 @@ router.post('/register', async (req, res) => {
     }
 });
 
-router.put('/:id', auth, async(req, res) => {
+router.put('/:username', auth, async(req, res) => {
     try {
-        const user_id = req.params.id;
+        const username = req.params.username;
         const update_data = req.body;
-        const updatedUser = await User.findByIdAndUpdate(user_id, update_data, {new:true});
+        const updatedUser = await User.findOne(username, update_data, {new:true});
         res.json(updatedUser);
     } catch (error) {
         res.status(400).send(error.message);

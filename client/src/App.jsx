@@ -19,13 +19,17 @@ function App() {
       <BrowserRouter>
         <div className="App">
           <header className="App-header">
-            <h1>Games Connection</h1>
+            <h1>gamesConnection</h1>
           </header>
           <div className="App-body">
-            <Sidebar className="sidebar" isSidebarExpanded={isSidebarExpanded} handleExpandSidebarButton={handleExpandSidebarButton}/>
+            <Sidebar
+              className="sidebar"
+              isSidebarExpanded={isSidebarExpanded}
+              handleExpandSidebarButton={handleExpandSidebarButton}
+            />
             <main className="app-content">
               <Routes>
-                <Route path='/' exact element={<GamesContainer/>} />
+                <Route path='/' element={<GamesContainer/>} />
                 <Route path="/account" element={
                   <ProtectedRoute>
                     <AccountPage />
