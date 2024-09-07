@@ -15,9 +15,9 @@ COMPONENT_NAME=$(echo "$1" | sed -r 's/(^|_)([a-z])/\U\2/g')
 COMPONENT_DIR="./client/src/components/$FOLDER_NAME"
 mkdir -p "$COMPONENT_DIR"
 
-# Create the CamelCase.js file
-JS_FILE="$COMPONENT_DIR/$COMPONENT_NAME.js"
-cat <<EOL > "$JS_FILE"
+# Create the CamelCase.jsx file
+JSX_FILE="$COMPONENT_DIR/$COMPONENT_NAME.jsx"
+cat <<EOL > "$JSX_FILE"
 import React from 'react';
 import './$COMPONENT_NAME.css';
 

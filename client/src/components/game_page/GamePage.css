@@ -1,0 +1,28 @@
+.score-slider {
+  margin: 10px 0;
+}
+
+.score-slider input[type="range"] {
+  width: 100%;
+  appearance: none;
+  height: 8px;
+  border-radius: 5px;
+  background: #ddd;
+  outline: none;
+  opacity: 0.7;
+  transition: background 0.15s ease-in-out;
+}
+
+.score-slider input[type="range"]::-webkit-slider-thumb {
+  appearance: none;
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+  background: #4CAF50;
+  cursor: pointer;
+}
+
+.user-ratings-container {
+  display: flex;
+  flex-direction: row;
+}

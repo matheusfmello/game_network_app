@@ -3,6 +3,7 @@ import {BrowserRouter, Route, Routes} from 'react-router-dom';
 import './App.css';
 import AccountPage from "./components/account_page/AccountPage";
 import LoginPage from "./components/login_page/LoginPage";
+import GamePage from "./components/game_page/GamePage";
 import GamesContainer from "./components/games_container/GamesContainer";
 import ProtectedRoute from "./ProtectedRoute";
 import Sidebar from "./components/sidebar/Sidebar";
@@ -36,6 +37,7 @@ function App() {
                   </ProtectedRoute>
                 } />
                 <Route path="/login" exact element={<LoginPage/>} />
+                <Route path="/games/:gameId" element={<GamePage/>} />
               </Routes>
             </main>
           </div>

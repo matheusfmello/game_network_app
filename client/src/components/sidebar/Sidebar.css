@@ -21,9 +21,6 @@
     display: block;
   }
   
-  .sidebar ul li Link:hover {
-    background-color: #575757;
-  }
 
   .sidebar.minimized {
     width: 50px;
