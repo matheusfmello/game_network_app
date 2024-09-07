@@ -22,6 +22,8 @@ const RatingBox = ({ gameName, scoreCategory, score }) => {
   };
 
   return (
+    <div className={`rating-box ${scoreCategory}`}>
+    <p>{scoreCategory}</p>
     <span
       id={`${gameName}-${scoreCategory}`}
       style={{
@@ -33,6 +35,7 @@ const RatingBox = ({ gameName, scoreCategory, score }) => {
     >
       {score}
     </span>
+    </div>
   );
 };
 

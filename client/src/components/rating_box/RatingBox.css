@@ -1,3 +1,11 @@
-.RatingBox {
-  /* Your styles go here */
+.rating-box {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-transform: capitalize;
+}
+
+.rating-box span {
+  width:fit-content;
+  
 }

@@ -51,11 +51,12 @@ const UserRatingField = ({ gameName, scoreCategory, score, label}) => {
 
 
 const GamePage = () => {
-  const { gameId } = useParams();  // Get game ID from URL
+  const {gameId} = useParams();  // Get game ID from URL
   const [game, setGame] = useState(null);
+  const [userRatings, setUserRatings] = useState(null)
 
   useEffect(() => {
-    const fetchGameDetails = async () => {
+    const fetchGlobalGameDetails = async () => {
       try {
         const response = await axios.get(`http://localhost:3333/games/${gameId}`);
         setGame(response.data);
@@ -64,10 +65,26 @@ const GamePage = () => {
       }
     };
 
-    fetchGameDetails();
+    fetchGlobalGameDetails();
   }, [gameId]);
 
-  if (!game) return <p>Loading...</p>;
+  useEffect(() => {
+    const fetchUserGameDetails = async () => {
+      try {
+        const response = await axios.get(`http://localhost:3333/games/${gameId}/user`, {withCredentials:true});
+        const user_ratings = response.data
+        setUserRatings(user_ratings)
+      } catch (error) {
+        console.error('Error fetching game details:', error);
+      }
+    };
+
+    fetchUserGameDetails();
+  }, [gameId]);
+
+
+  if (!game || !userRatings) return <p>Loading...</p>;
+
 
   return (
     <div className="game-details">
@@ -77,8 +94,9 @@ const GamePage = () => {
       <p>Producer: {game.producer}</p>
       <p>Year: {game.year}</p>
 
-      <div className="game-ratings">
-        <h3>Average Ratings</h3>
+      <h3>Average Ratings</h3>
+      <div className="global-ratings-container">
+        
         <RatingBox
           gameName={game.title}
           scoreCategory={"gameplay"}
@@ -95,25 +113,24 @@ const GamePage = () => {
           score={game.averageNarrative}
         />
       </div>
-
+      <h3>Rate this Game</h3>
       <div className='user-ratings-container'>
-        <h3>Rate this Game</h3>
         <UserRatingField
           gameName={game.title}
           scoreCategory={"gameplay"}
-          score={50} // change to retrieve the user rating
+          score={userRatings.gameplay}
           label={"Gameplay"}
         />
         <UserRatingField
           gameName={game.title}
           scoreCategory={"difficulty"}
-          score={50} // change to retrieve the user rating
+          score={userRatings.gameplay}
           label={"Difficulty"}
         />
         <UserRatingField
           gameName={game.title}
           scoreCategory={"narrative"}
-          score={50} // change to retrieve the user rating
+          score={userRatings.narrative}
           label={"Narrative"}
         />
       </div>

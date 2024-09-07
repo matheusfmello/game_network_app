@@ -19,7 +19,7 @@ const LoginPage = () => {
         try {
             const response = await axios.get(`http://localhost:3333/user/${username}`);
             const user = response.data
-            if (user.length > 0) {
+            if (response.status == 200) {
                 setUsernameExists(true);
             }
             setIsUsernameVerified(true);
@@ -100,7 +100,7 @@ const LoginPage = () => {
                         value={confirmPassword}
                         onChange={(e) => {setConfirmPassword(e.target.value)}}
                     />
-                    <button onClick={handleRegister}>
+                    <button onClick={handleRegisterButton}>
                         Register
                     </button>
                 </div>
