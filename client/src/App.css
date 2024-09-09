@@ -1,4 +1,4 @@
-.App {
+.app {
   text-align: center;
   display: flex;
   flex-direction: column;
@@ -7,66 +7,39 @@
   height: 100vh;
 }
 
-.App h1 {
+.app h1 {
   margin: 0;
   letter-spacing: 1.6px;
   color: #e0e0e0;
 }
 
-.App-header {
-  background: #1a1a1a;
-  font-size: calc(12px + 1vmin);
-  padding: 20px;
-  color: #fff;
-  border-bottom: 2px solid black;
-  box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.3);
+.app-header {
+  background-color: #111;
+  border-bottom: 1px solid #444;
+  justify-content: center;
+  align-items: center;
 }
 
-.App-body {
+
+header ul li {
+  padding: 8px;
+  text-align: center;
+}
+
+
+
+.body {
   background-color: #1a1a1a; /* Dark theme background */
   color: #fff;
   display: flex;
   overflow: hidden;
 }
 
-.App p {
+.app p {
   font-size: 1rem;
   color: #ccc;
 }
 
-.sidebar {
-  width: 220px;
-  background-color: #1a1a1a;
-  color: white;
-  transition: all 0.3s ease;
-  padding: 20px;
-  box-shadow: 2px 0 10px rgba(0, 0, 0, 0.1);
-}
-
-.sidebar:hover {
-  background-color: #2a2a2a;
-}
-
-.sidebar a {
-  color: white;
-  text-decoration: none;
-  font-weight: bold;
-  display: block;
-  margin: 10px 0;
-  transition: color 0.3s ease;
-}
-
-.sidebar a:hover {
-  color: #ff0000;
-}
-
-.sidebar.expanded {
-  width: 200px;
-}
-
-.sidebar.collapsed {
-  width: 60px;
-}
 
 .app-content {
   flex-grow: 1;
@@ -96,4 +69,9 @@ button {
 
 button:hover {
   background-color: #b45815de;
+}
+
+a {
+  text-decoration: none;
+  color: inherit;
 }

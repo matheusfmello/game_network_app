@@ -9,7 +9,7 @@ const auth = async (req, res, next) => {
         res.status(401).send('Access denied. Please log in to continue');
         return;
     }
-    
+     
     try {
         const decoded = await jwt.verify(token, SECRET);
         req.user = decoded;
