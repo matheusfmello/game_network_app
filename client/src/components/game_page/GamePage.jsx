@@ -53,7 +53,7 @@ const UserRatingField = ({ gameName, scoreCategory, score, label}) => {
 const GamePage = () => {
   const {gameId} = useParams();  // Get game ID from URL
   const [game, setGame] = useState(null);
-  const [userRatings, setUserRatings] = useState(null)
+  const [userRatings, setUserRatings] = useState({'gameplay':50, 'difficulty':50, 'narrative':50})
 
   useEffect(() => {
     const fetchGlobalGameDetails = async () => {
