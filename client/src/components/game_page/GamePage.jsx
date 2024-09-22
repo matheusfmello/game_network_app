@@ -58,7 +58,7 @@ const GamePage = () => {
   useEffect(() => {
     const fetchGlobalGameDetails = async () => {
       try {
-        const response = await axios.get(`http://localhost:3333/games/${gameId}`);
+        const response = await axios.get(`http://localhost:3333/ratings/${gameId}`);
         setGame(response.data);
       } catch (error) {
         console.error('Error fetching game details:', error);
@@ -71,9 +71,10 @@ const GamePage = () => {
   useEffect(() => {
     const fetchUserGameDetails = async () => {
       try {
-        const response = await axios.get(`http://localhost:3333/games/${gameId}/user`, {withCredentials:true});
+        const response = await axios.get(`http://localhost:3333/ratings/${gameId}/user`, {withCredentials:true});
         const user_ratings = response.data
         setUserRatings(user_ratings)
+        console.log(user_ratings)
       } catch (error) {
         console.error('Error fetching game details:', error);
       }
@@ -81,6 +82,16 @@ const GamePage = () => {
 
     fetchUserGameDetails();
   }, [gameId]);
+
+  const handleRateButton = async() => {
+    await axios.post(`http://localhost:3333/ratings/${gameId}`,
+      {
+        'gameplay': userRatings['gameplay'],
+        'difficulty': userRatings['difficulty'],
+        'narrative': userRatings['narrative']
+      },
+      {withCredentials:true});
+  }
 
 
   if (!game || !userRatings) return <p>Loading...</p>;
@@ -124,7 +135,7 @@ const GamePage = () => {
         <UserRatingField
           gameName={game.title}
           scoreCategory={"difficulty"}
-          score={userRatings.gameplay}
+          score={userRatings.difficulty}
           label={"Difficulty"}
         />
         <UserRatingField
@@ -134,6 +145,7 @@ const GamePage = () => {
           label={"Narrative"}
         />
       </div>
+      <button onClick={handleRateButton}>Rate</button>
       
     </div>
   );

@@ -1,10 +1,11 @@
 const express = require('express');
 const cookieParser = require('cookie-parser')
 const connectDB = require('./db_connection');
+const account_route = require('./routes/account');
 const auth_middleware = require('./routes/check_auth')
 const games_route = require('./routes/games');
 const login_route = require('./routes/login');
-const account_route = require('./routes/account');
+const ratings_route = require('./routes/ratings');
 const user_route = require('./routes/user');
 const app = express();
 const cors = require('cors');
@@ -24,6 +25,7 @@ app.use('/check-auth', auth_middleware)
 app.use('/account', account_route);
 app.use('/games', games_route);
 app.use('/login', login_route);
+app.use('/ratings', ratings_route)
 app.use('/user', user_route);
 
 // Static data to retrieve images to the frontend
